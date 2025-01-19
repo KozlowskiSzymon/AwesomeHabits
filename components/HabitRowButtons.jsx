@@ -1,31 +1,51 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Button from './Button';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import colors from '../model/colors';
+import HabitButton from './HabitButton';
 
-const HabitRowButtons = ({ onComplete, onDelete, showCompleteButton }) => {
+const HabitRowButtons = ({habit}) => {
+
+  const onComplete = () => {
+    habit.incrementStrike();
+  }
+
+  const onUncomplete = () => {
+    habit.decrementStrike();
+  }
+
   return (
     <>
-      {showCompleteButton && <Button title='Complete' onPress={onComplete} style={styles.completeButton} backgroundColor={colors.highlight}/>}
-      <Button title='Delete' onPress={onDelete} style={styles.deleteButton} backgroundColor={colors.red}/>
+      <HabitButton onComplete={onComplete} onUncomplete={onUncomplete} style={[styles.button]} />
+      <HabitButton onComplete={onComplete} onUncomplete={onUncomplete} style={[styles.button]} />
+      <HabitButton onComplete={onComplete} onUncomplete={onUncomplete} style={[styles.button]} />
+      <Pressable style={[styles.button, styles.strikeButton]}>
+        <Text style={styles.strikeText}>{habit.strike}</Text>
+      </Pressable>
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  completeButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
+  button: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: colors.border,
+    minHeight: '100%',
   },
-  deleteButton: {
-    backgroundColor: '#FF5252',
-    padding: 10,
+  strikeButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
+  strikeText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: colors.text,
+    width: '40%',
+    paddingLeft: 5,
   },
+  pressed: {
+    backgroundColor: colors.completed,
+  }
 });
 
-export default HabitRowButtons; 
+export default HabitRowButtons;
+

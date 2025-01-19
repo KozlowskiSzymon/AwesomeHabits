@@ -1,25 +1,15 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import Button from './components/Button';
+import { SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
 import { useState } from 'react';
-import { TextInput } from 'react-native';
 import colors from './model/colors';
-import Habit from './model/Habit';
 import HabitRow from './components/HabitRow';
+import NewHabitInput from './components/NewHabitInput';
+import HabitListHeader from './components/HabitListHeader';
 export default function App() {
 
   const [habits, setHabits] = useState([]);
-  const [habitName, setHabitName] = useState('');
 
-  const handleInputChange = (text) => {
-    setHabitName(text);
-  };
-
-  const handleAddHabit = () => {
-    if (habitName.trim() !== '') {
-      const newHabit = new Habit(habitName);
-      setHabits(habits => [...habits, newHabit]);
-      setHabitName('');
-    }
+  const handleAddHabit = (newHabit) => {
+    setHabits(currentHabits => [...currentHabits, newHabit]);
   };
 
   return (
@@ -27,24 +17,11 @@ export default function App() {
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Awesome Habits</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput 
-          placeholder="Add new habit..."
-          placeholderTextColor={colors.border} 
-          style={styles.input}
-          onChangeText={handleInputChange}
-          value={habitName}
-          maxLength={30}
-        />
-        <Button title="Add" onPress={handleAddHabit} backgroundColor={colors.highlight} />
-      </View>
+      <NewHabitInput handleAddHabit={handleAddHabit} />
+      <View style={styles.borderLine} />
       <View style={styles.habitListContainer}>
-        <View style={styles.borderLine} />
-        <View style={styles.habitList}>
-          {habits.map(habit => (
-            <HabitRow key={habit.id} habit={habit} setHabits={setHabits} />
-          ))}
-        </View>
+        <HabitListHeader />
+        <FlatList data={habits} renderItem={(habitData) => <HabitRow habit={habitData.item} setHabits={setHabits} />} style={styles.habitList} />
       </View> 
     </SafeAreaView>
     );
@@ -56,12 +33,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
   },
   titleContainer: {
     marginBottom: 20,
@@ -81,21 +52,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     paddingHorizontal: 20,
-    paddingTop: 20,
     alignItems: 'center',
+  },
+  habitList: {
+    width: '100%',
   },
   borderLine: {
     borderTopWidth: 1,
     borderTopColor: colors.border,
     width: '90%',
-    padding: 5
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.text,
-    borderRadius: 8,
-    padding: 10,
-    minWidth: 200,
-    marginRight: 10
+    paddingTop: 5,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
 });
