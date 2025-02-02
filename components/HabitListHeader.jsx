@@ -24,7 +24,7 @@ const HabitListHeader = () => {
                 <Text style={styles.headerText}>{formatDate(getDayBefore(today, 1))}</Text>
             </View>
             <View style={styles.dateContainer}>
-                <Text style={styles.headerText}>{formatDate(today)}</Text>
+                <Text style={styles.headerText}>Today</Text>
             </View>
             <View style={styles.dateContainer}>
                 <Tooltip popover={<Text>Strike / Overall</Text>}>

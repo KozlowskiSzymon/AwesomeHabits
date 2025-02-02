@@ -1,37 +1,31 @@
 import React from 'react';
 import { StyleSheet, Pressable } from 'react-native';
-import Button from './Button';
 import colors from '../model/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const HabitRowButtons = ({ onDelete }) => {
   return (
     <>
-      {/* <Pressable style={[styles.button, styles.editButton]} backgroundColor={colors.red}/> */}
-      <Pressable onPress={onDelete} style={[styles.button, styles.deleteButton]} backgroundColor={colors.red}/>
+    <Pressable onPress={onDelete} style={[styles.button, styles.deleteButton]}>
+      <Ionicons name="trash-bin" size={24} color={colors.white} />
+    </Pressable>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  completeButton: {
-    backgroundColor: '#4CAF50',
-  },
   deleteButton: {
-    backgroundColor: '#FF5252',
-  },
-  editButton: {
-    backgroundColor: '#cccccc',
+    backgroundColor: colors.red,
+    justifyContent: 'center',   // Center the content
+    alignItems: 'center'      // Center the icon
   },
   button: {
     flex: 1,
-    padding: 10,
     height: '100%',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-  },
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 export default HabitRowButtons; 

@@ -2,6 +2,7 @@
 const colors = {
     text: '#363636',
     red: '#dc2f2f',
+    white: '#FFFFFF',
     highlight: '#ff894c',
     background: '#f8f8f8',
     border: '#aaa',

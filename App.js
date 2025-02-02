@@ -4,17 +4,64 @@ import colors from './model/colors';
 import HabitRow from './components/HabitRow';
 import NewHabitInput from './components/NewHabitInput';
 import HabitListHeader from './components/HabitListHeader';
-import useAppState from './functions/saveLoadHook';
-import saveJsonToFile from './functions/saveToFile';
+import Habit from './model/Habit';
+import * as FileSystem from 'expo-file-system';
 
 
 export default function App() {
 
   const [habits, setHabits] = useState([]);
-  // useAppState(habits, setHabits);
 
   const handleAddHabit = (newHabit) => {
     setHabits(currentHabits => [...currentHabits, newHabit]); 
+  };
+    // File path for saving habits
+    const fileUri = `${FileSystem.documentDirectory}AwesomeHabits.json`;
+
+    // Load habits from file on app start
+    useEffect(() => {
+      const loadHabits = async () => {
+        try {
+          const fileInfo = await FileSystem.getInfoAsync(fileUri);
+          if (fileInfo.exists) {
+            const jsonString = await FileSystem.readAsStringAsync(fileUri);
+            const loadedHabits = JSON.parse(jsonString).map(habitData => Object.assign(new Habit(habitData.name), habitData));
+            setHabits(loadedHabits);
+            console.log('Habits loaded:', loadedHabits);
+          } else {
+            console.log('No saved habits found.');
+          }
+        } catch (error) {
+          console.error('Error loading habits:', error);
+        }
+      };
+  
+      loadHabits();
+    }, []);
+
+      // Save habits to file when app is minimized or closed
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState) => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        saveHabitsToFile();
+      }
+    };
+
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+        subscription.remove();
+    };
+  }, [habits]);
+
+  // Function to save habits
+  const saveHabitsToFile = async () => {
+    try {
+      const jsonString = JSON.stringify(habits, null, 2);
+      await FileSystem.writeAsStringAsync(fileUri, jsonString, { encoding: FileSystem.EncodingType.UTF8 });
+      console.log('Habits saved to file:', fileUri);
+    } catch (error) {
+      console.error('Error saving habits:', error);
+    }
   };
 
   return (
