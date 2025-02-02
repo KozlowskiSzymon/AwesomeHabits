@@ -1,5 +1,5 @@
-import { AppState, SafeAreaView, StyleSheet, Text, View, FlatList, Platform } from 'react-native';
-import { useState, useEffect, useRef } from 'react';
+import { AppState, SafeAreaView, StyleSheet, Text, View, FlatList, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
 import colors from './model/colors';
 import HabitRow from './components/HabitRow';
 import NewHabitInput from './components/NewHabitInput';
@@ -27,12 +27,11 @@ export default function App() {
             const jsonString = await FileSystem.readAsStringAsync(fileUri);
             const loadedHabits = JSON.parse(jsonString).map(habitData => Object.assign(new Habit(habitData.name), habitData));
             setHabits(loadedHabits);
-            console.log('Habits loaded:', loadedHabits);
           } else {
             console.log('No saved habits found.');
           }
         } catch (error) {
-          console.error('Error loading habits:', error);
+          Alert.alert('Error', 'on load: ' + error);
         }
       };
   
@@ -58,9 +57,9 @@ export default function App() {
     try {
       const jsonString = JSON.stringify(habits, null, 2);
       await FileSystem.writeAsStringAsync(fileUri, jsonString, { encoding: FileSystem.EncodingType.UTF8 });
-      console.log('Habits saved to file:', fileUri);
+      Alert.alert('Success', 'Habits saved in: ' + fileUri);
     } catch (error) {
-      console.error('Error saving habits:', error);
+      Alert.alert('Error', 'on save: ' + error);
     }
   };
 
