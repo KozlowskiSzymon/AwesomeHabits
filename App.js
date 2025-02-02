@@ -1,15 +1,20 @@
-import { SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
-import { useState } from 'react';
+import { AppState, SafeAreaView, StyleSheet, Text, View, FlatList, Platform } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
 import colors from './model/colors';
 import HabitRow from './components/HabitRow';
 import NewHabitInput from './components/NewHabitInput';
 import HabitListHeader from './components/HabitListHeader';
+import useAppState from './functions/saveLoadHook';
+import saveJsonToFile from './functions/saveToFile';
+
+
 export default function App() {
 
   const [habits, setHabits] = useState([]);
+  // useAppState(habits, setHabits);
 
   const handleAddHabit = (newHabit) => {
-    setHabits(currentHabits => [...currentHabits, newHabit]);
+    setHabits(currentHabits => [...currentHabits, newHabit]); 
   };
 
   return (

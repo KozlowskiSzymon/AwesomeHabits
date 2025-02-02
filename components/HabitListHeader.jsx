@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { Tooltip } from 'react-native-elements';
+
 
 const HabitListHeader = () => {
     const today = new Date();
@@ -25,7 +27,9 @@ const HabitListHeader = () => {
                 <Text style={styles.headerText}>{formatDate(today)}</Text>
             </View>
             <View style={styles.dateContainer}>
-                <Text style={styles.headerText}>Strike</Text>
+                <Tooltip popover={<Text>Strike / Overall</Text>}>
+                    <Text style={styles.headerText}>S/O</Text>
+                </Tooltip>
             </View>
         </View>
     );
