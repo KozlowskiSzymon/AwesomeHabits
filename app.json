@@ -11,6 +11,13 @@
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },    
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "enabled": true,
+      "fallbackToCacheTimeout": 0
     },
     "ios": {
       "supportsTablet": true,
@@ -24,7 +31,8 @@
       "permissions": [
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
-      ]
+      ],
+      "package": "com.szymonkozlowski.AwesomeHabits"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +46,9 @@
       [
         "expo-file-system",
         {
-          "fileSystem": ["downloads"]
+          "fileSystem": [
+            "downloads"
+          ]
         }
       ]
     ]

@@ -6,6 +6,8 @@ import NewHabitInput from './components/NewHabitInput';
 import HabitListHeader from './components/HabitListHeader';
 import Habit from './model/Habit';
 import * as FileSystem from 'expo-file-system';
+import 'react-native-url-polyfill/auto';
+import 'whatwg-fetch';
 
 
 export default function App() {
@@ -57,7 +59,6 @@ export default function App() {
     try {
       const jsonString = JSON.stringify(habits, null, 2);
       await FileSystem.writeAsStringAsync(fileUri, jsonString, { encoding: FileSystem.EncodingType.UTF8 });
-      Alert.alert('Success', 'Habits saved in: ' + fileUri);
     } catch (error) {
       Alert.alert('Error', 'on save: ' + error);
     }
